@@ -34,4 +34,5 @@ RUN mkdir -p storage/logs \
 EXPOSE 8080
 
 # Jalankan Laravel pakai PHP built-in server
-CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+
