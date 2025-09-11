@@ -16,7 +16,9 @@ WORKDIR /app
 COPY composer.json composer.lock ./
 
 # Install dependencies tanpa dev
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader \
+    && ls -lah /app/vendor \
+    && ls -lah /app/public
 
 # Copy semua file project
 COPY . .
