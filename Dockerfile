@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Set working directory
-WORKDIR /app
+WORKDIR /var/www/html
 
 
 # Copy semua file project Laravel
@@ -32,6 +32,8 @@ RUN mkdir -p storage/logs \
 
 # Expose port (Railway pakai 8080)
 EXPOSE 8080
+
+RUN php artisan config:clear && php artisan cache:clear
 
 # Jalankan Laravel pakai PHP built-in server
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
