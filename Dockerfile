@@ -18,8 +18,11 @@ COPY . .
 # Install dependency PHP (vendor)
 RUN composer install --no-dev --optimize-autoloader
 
+
 # Permission untuk Laravel
 RUN chmod -R 777 storage bootstrap/cache
+
+RUN touch storage/logs/laravel.log && chmod -R 777 storage
 
 # Expose port (Railway pakai 8080)
 EXPOSE 8080
