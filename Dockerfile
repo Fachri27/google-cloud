@@ -28,6 +28,8 @@ RUN mkdir -p storage/logs \
     && touch storage/logs/laravel.log \
     && chmod -R 777 storage bootstrap/cache
 
+    
+
 # Expose port (Railway pakai 8080)
 EXPOSE 8080
 
