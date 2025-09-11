@@ -4,6 +4,12 @@
         "dev": "vite",
         "build": "vite build"
     },
+    "engines": {
+        "node": "20.x"
+    },
+    "dependencies": {
+        "vercel-php-runtime": "latest"
+    },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5",
         "@tailwindcss/typography": "^0.5",
