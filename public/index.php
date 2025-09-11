@@ -53,3 +53,20 @@ $response = $kernel->handle(
 )->send();
 
 $kernel->terminate($request, $response);
+
+$autoload = __DIR__ . '/../vendor/autoload.php';
+
+if (!file_exists($autoload)) {
+    die("❌ Autoload tidak ditemukan di: $autoload");
+}
+
+require $autoload;
+
+echo "✅ Composer autoload berhasil dimuat!<br>";
+
+// Tambahan: test salah satu library composer
+if (class_exists(\Composer\Autoload\ClassLoader::class)) {
+    echo "Composer ClassLoader tersedia.<br>";
+} else {
+    echo "Composer ClassLoader tidak ditemukan.<br>";
+}
