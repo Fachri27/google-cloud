@@ -10,8 +10,8 @@ RUN apt-get update && apt-get install -y \
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Set working directory
-WORKDIR /app
+# Set working directory ke root project Laravel
+WORKDIR /var/www/html
 
 # Copy composer files dulu (biar cache lebih efisien)
 COPY composer.json composer.lock ./
