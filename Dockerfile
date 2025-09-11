@@ -4,14 +4,21 @@ FROM php:8.2-cli
 
 # Install dependency sistem
 RUN apt-get update && apt-get install -y \
-    unzip git curl libpq-dev libzip-dev libonig-dev libxml2-dev \
-    && docker-php-ext-install pdo pdo_mysql zip bcmath
+    git \
+    unzip \
+    curl \
+    zip \
+    libzip-dev \
+    libonig-dev \
+    npm \
+    nodejs \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Set working directory
-WORKDIR /public
+WORKDIR /var/www/htm
 
 
 # Copy semua file project Laravel
@@ -34,9 +41,11 @@ RUN mkdir -p storage/logs \
 # Expose port (Railway pakai 8080)
 EXPOSE 8080
 
-RUN php artisan config:clear && php artisan cache:clear
+# Install Node dependencies dan build
+RUN npm install
+RUN npm run build
 
-RUN npm install && npm run build
+RUN php artisan config:clear && php artisan cache:clear
 
 
 # Jalankan Laravel pakai PHP built-in server
