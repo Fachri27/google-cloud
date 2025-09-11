@@ -16,6 +16,8 @@ WORKDIR /var/www/html
 # Copy composer files dulu (biar cache lebih efisien)
 COPY composer.json composer.lock ./
 
+RUN ls -lah && ls -lah public
+
 # Install dependencies tanpa dev
 RUN composer install --no-dev --optimize-autoloader \
     && ls -lah /app/vendor \
