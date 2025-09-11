@@ -1,8 +1,3 @@
-FROM node:20 as build
-WORKDIR /app
-COPY package*.json vite.config.js ./
-COPY resources ./resources
-RUN npm install && npm run build
 
 # Base image PHP
 FROM php:8.2-cli
@@ -40,6 +35,9 @@ RUN mkdir -p storage/logs \
 EXPOSE 8080
 
 RUN php artisan config:clear && php artisan cache:clear
+
+RUN npm install && npm run build
+
 
 # Jalankan Laravel pakai PHP built-in server
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
