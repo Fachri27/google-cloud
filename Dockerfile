@@ -1,3 +1,9 @@
+FROM node:20 as build
+WORKDIR /app
+COPY package*.json vite.config.js ./
+COPY resources ./resources
+RUN npm install && npm run build
+
 # Base image PHP
 FROM php:8.2-cli
 
