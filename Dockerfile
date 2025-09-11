@@ -1,7 +1,7 @@
 # Base image PHP
 FROM php:8.2-cli
 
-# Install dependency sistem
+# Install extension PHP yang umum dipakai Laravel
 RUN apt-get update && apt-get install -y \
     unzip git curl libpq-dev libzip-dev libonig-dev libxml2-dev \
     && docker-php-ext-install pdo pdo_mysql zip bcmath
@@ -10,15 +10,24 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Set working directory
-WORKDIR /var/www/html
+WORKDIR /app
 
-# Copy semua file project Laravel
+# Copy composer files dulu (biar cache gak invalid tiap file project berubah)
+COPY composer.json composer.lock ./
+
+# Install dependencies tanpa dev
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+
+# Copy semua file project (termasuk .env dan folder public)
 COPY . .
 
-# Install dependency PHP (vendor)
-RUN composer install --no-dev --optimize-autoloader
+# Generate APP_KEY otomatis kalau belum ada
+RUN php artisan key:generate --force
 
-# Expose port (Railway pakai 8080)
+# Permission untuk Laravel
+RUN chmod -R 777 storage bootstrap/cache
+
+# Railway expose port 8080
 EXPOSE 8080
 
 # Jalankan Laravel pakai PHP built-in server
