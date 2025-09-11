@@ -18,9 +18,6 @@ COPY . .
 # Install dependency PHP (vendor)
 RUN composer install --no-dev --optimize-autoloader
 
-# Generate APP_KEY otomatis kalau belum ada
-RUN php artisan key:generate --force
-
 # Permission untuk Laravel
 RUN chmod -R 777 storage bootstrap/cache
 
