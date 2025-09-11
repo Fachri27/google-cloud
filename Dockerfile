@@ -21,4 +21,4 @@ RUN composer install --no-dev --optimize-autoloader
 EXPOSE 8080
 
 # Jalankan PHP built-in server, serve dari folder public
-CMD ["php", "-S", "0.0.0.0:8080", "-t", "api"]
+CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
