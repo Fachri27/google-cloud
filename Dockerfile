@@ -1,5 +1,5 @@
 # Base image PHP
-FROM php:8.2-cli
+FROM php:8.0.2-cli
 
 # Install extension PHP yang umum
 RUN apt-get update && apt-get install -y unzip git libpq-dev libzip-dev \
