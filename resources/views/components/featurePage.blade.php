@@ -42,9 +42,9 @@
         <div class="mt-[60px]">
             <!-- Tab AI -->
             <template x-if="activeTab === 'ai'">
-                <div class="md:grid auto-cols-max md:grid-flow-col gap-2 mb-[20px]">
+                <div class="md:grid auto-cols-max md:grid-flow-col md:gap-2 mb-[20px]">
                 <!-- Card 1 -->
-                    <div class="flex-shrink-0 col-span-2 md:w-[380px] md:h-[130px] bg-white shadow border flex">
+                    <div class="flex-shrink-0 mb-2 col-span-2 md:w-[380px] md:h-[130px] bg-white shadow border flex">
                         <!-- Bagian kiri -->
                         <div class="flex-1 p-4">
                             <p class="text-sm text-gray-500 uppercase">Event</p>
@@ -60,7 +60,7 @@
                                 class="w-full h-full object-cover">
                         </div>
                     </div>
-                    <div class="flex-shrink-0 col-span-2 md:w-[380px] md:h-[130px] bg-white shadow border flex">
+                    <div class="flex-shrink-0 mb-2 col-span-2 md:w-[380px] md:h-[130px] bg-white shadow border flex">
                         <!-- Bagian kiri -->
                         <div class="flex-1 p-4">
                             <p class="text-sm text-gray-500 uppercase">Event</p>
@@ -76,7 +76,7 @@
                                 class="w-full h-full object-cover">
                         </div>
                     </div>
-                   <div class="flex-shrink-0 col-span-2 md:w-[380px] md:h-[130px] bg-white border shadow flex">
+                   <div class="flex-shrink-0 mb-2 col-span-2 md:w-[380px] md:h-[130px] bg-white border shadow flex">
                         <!-- Bagian kiri -->
                         <div class="flex-1 p-4">
                             <p class="text-sm text-gray-500 uppercase">Event</p>
@@ -99,7 +99,7 @@
             <template x-if="activeTab === 'dev'">
                 <div class="md:grid auto-cols-max md:grid-flow-col gap-2 mb-[20px]">
                 <!-- Card 1 -->
-                    <div class="flex-shrink-0 col-span-2 md:w-[380px] md:h-[130px] border bg-white shadow flex">
+                    <div class="flex-shrink-0 mb-2 col-span-2 md:w-[380px] md:h-[130px] border bg-white shadow flex">
                         <!-- Bagian kiri -->
                         <div class="flex-1 p-4">
                             <p class="text-sm text-gray-500 uppercase">Event</p>
@@ -115,7 +115,7 @@
                                 class="w-full h-full object-cover">
                         </div>
                     </div>
-                   <div class="flex-shrink-0 col-span-2 md:w-[380px] md:h-[130px] border bg-white shadow flex">
+                   <div class="flex-shrink- mb-2 col-span-2 md:w-[380px] md:h-[130px] border bg-white shadow flex">
                         <!-- Bagian kiri -->
                         <div class="flex-1 p-4">
                             <p class="text-sm text-gray-500 uppercase">Event</p>
@@ -131,7 +131,7 @@
                                 class="w-full h-full object-cover">
                         </div>
                     </div>
-                   <div class="flex-shrink-0 col-span-2 md:w-[380px] md:h-[130px] border bg-white shadow flex">
+                   <div class="flex-shrink-0 mb-2 col-span-2 md:w-[380px] md:h-[130px] border bg-white shadow flex">
                         <!-- Bagian kiri -->
                         <div class="flex-1 p-4">
                             <p class="text-sm text-gray-500 uppercase">Skilling</p>
@@ -154,7 +154,7 @@
             <template x-if="activeTab === 'biz'">
                 <div class="md:grid auto-cols-max md:grid-flow-col gap-2 mb-[20px]">
                 <!-- Card 1 -->
-                    <div class="flex-shrink-0 col-span-2 md:w-[380px] md:h-[130px] border bg-white shadow flex">
+                    <div class="flex-shrink-0 mb-2 col-span-2 md:w-[380px] md:h-[130px] border bg-white shadow flex">
                         <!-- Bagian kiri -->
                         <div class="flex-1 p-4">
                             <p class="text-sm text-gray-500 uppercase">Event</p>
@@ -170,7 +170,7 @@
                                 class="w-full h-full object-cover">
                         </div>
                     </div>
-                   <div class="flex-shrink-0 col-span-2 md:w-[380px] md:h-[130px] border bg-white shadow flex">
+                   <div class="flex-shrink-0 mb-2 col-span-2 md:w-[380px] md:h-[130px] border bg-white shadow flex">
                         <!-- Bagian kiri -->
                         <div class="flex-1 p-4">
                             <p class="text-sm text-gray-500 uppercase">Event</p>
@@ -205,6 +205,5 @@
                 </div>
             </template>
         </div>
-    </div>
-
+    </div> 
 </div>
