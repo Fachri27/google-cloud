@@ -1,6 +1,6 @@
 <div class="md:flex justify-between container mx-auto">
     <div class="md:grid grid-cols-2 mx-[50px] my-[50px]">
-        <div class="sticky top-0 z-0 tracking-wide">
+        <div class=",d:sticky md:top-0 md:z-0 tracking-wide">
             <div class="md:text-4xl text-2xl font-bold my-[30px]">
                 Bangun dengan platform cloud
                 <span class="text-blue-500">yang dirancang<br> untuk developer dan AI</span>
