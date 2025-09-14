@@ -1,10 +1,10 @@
 # Stage 1: build frontend asset dengan Node
-FROM node:18 AS frontend
-WORKDIR /app
-COPY package*.json vite.config.js ./
-COPY resources ./resources
-RUN npm ci
-RUN npm run build
+# FROM node:18 AS frontend
+# WORKDIR /app
+# COPY package*.json vite.config.js ./
+# COPY resources ./resources
+# RUN npm ci
+# RUN npm run build
 
 # Base image PHP
 FROM php:8.2-cli
@@ -18,13 +18,13 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Set working directory
-WORKDIR /var/www/html
+WORKDIR /public
 
 # Copy semua file project Laravel
 COPY . .
 
-# Copy hasil build dari stage frontend
-COPY --from=frontend /app/public/build ./public/build
+# # Copy hasil build dari stage frontend
+# COPY --from=frontend /app/public/build ./public/build
 
 # Install dependency PHP (vendor)
 RUN composer install --no-dev --optimize-autoloader
@@ -38,7 +38,6 @@ RUN mkdir -p storage/logs \
     && touch storage/logs/laravel.log \
     && chmod -R 777 storage bootstrap/cache
 
-    
 
 # Expose port (Railway pakai 8080)
 EXPOSE 8080
