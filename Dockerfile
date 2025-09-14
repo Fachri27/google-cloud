@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y \
     unzip git curl libpq-dev libzip-dev libonig-dev libxml2-dev \
     && docker-php-ext-install pdo pdo_mysql zip bcmath
 
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
 
 # Install Composer
@@ -26,8 +26,8 @@ WORKDIR /public
 # Copy semua file project Laravel
 COPY . .
 
-# Install JS dependencies & build asset
-RUN npm ci && npm run build
+# # Copy hasil build dari stage frontend
+# COPY --from=frontend /app/public/build ./public/build
 
 # Install dependency PHP (vendor)
 RUN composer install --no-dev --optimize-autoloader
