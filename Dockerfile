@@ -26,8 +26,8 @@ WORKDIR /public
 # Copy semua file project Laravel
 COPY . .
 
-# # Copy hasil build dari stage frontend
-# COPY --from=frontend /app/public/build ./public/build
+# Install JS dependencies & build asset
+RUN npm ci && npm run build
 
 # Install dependency PHP (vendor)
 RUN composer install --no-dev --optimize-autoloader

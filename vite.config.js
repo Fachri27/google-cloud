@@ -8,5 +8,9 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    base: '',
+    build: {
+        outDir: 'public/build',
+        manifest: true,
+    },
+    base: '/',
 })
