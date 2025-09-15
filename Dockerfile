@@ -26,6 +26,10 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
+
+# Copy semua source code dulu
+COPY . .
+
 # Copy composer files & install deps
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader
