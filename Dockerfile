@@ -31,9 +31,6 @@ RUN npm install
 RUN chmod +x node_modules/.bin/vite
 RUN npm run build
 
-# Copy hasil build dari stage frontend
-COPY --from=frontend /app/public/build ./public/build
-
 # Install dependency PHP (vendor)
 RUN composer install --no-dev --optimize-autoloader
 
