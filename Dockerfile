@@ -1,56 +1,64 @@
-# -------------------------------
-# Stage 1: Node build (frontend)
-# -------------------------------
-FROM node:20 AS node-build
-
-# Set working directory
+# Stage 1: Build frontend dengan Node 20
+FROM node:20 AS frontend
 WORKDIR /app
-
-# Copy package files
-COPY package.json package-lock.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy frontend assets
-COPY . .
-
-# Build assets
+COPY package*.json vite.config.js ./
+COPY resources ./resources
+RUN npm ci
 RUN npm run build
 
-# -------------------------------
-# Stage 2: PHP / Laravel
-# -------------------------------
-FROM php:8.2-fpm
+# Base image PHP
+FROM php:8.2-cli
+
+# Install dependency sistem
+RUN apt-get update && apt-get install -y \
+    unzip git curl libpq-dev libzip-dev libonig-dev libxml2-dev \
+    && docker-php-ext-install pdo pdo_mysql zip bcmath
+
+# Install Node.js (LTS)
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
+    && apt-get install -y nodejs
+
+    
+# Install Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Set working directory
 WORKDIR /var/www/html
 
-# Install PHP extensions & system deps
-RUN apt-get update && apt-get install -y \
-    libpng-dev libonig-dev libxml2-dev zip unzip git curl \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-
-# Copy composer files first for caching
-COPY composer.json composer.lock ./
-
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
-
-# Copy Laravel app source
+# Copy semua file project Laravel
 COPY . .
 
-# Copy built frontend from Node stage
-COPY --from=node-build /app/public/build ./public/build
+# Copy hasil build dari stage frontend
+COPY --from=frontend /app/public/build ./public/build
 
-# Set permissions
-RUN chown -R www-data:www-data storage bootstrap/cache \
-    && chmod -R 775 storage bootstrap/cache
+# Install dependency PHP (vendor)
+RUN composer install --no-dev --optimize-autoloader
 
-# Expose port for Railway
+
+# Permission untuk Laravel
+RUN chmod -R 777 storage bootstrap/cache
+
+# ✅ Hapus cache Laravel biar baca manifest terbaru
+RUN rm -rf bootstrap/cache/*.php storage/framework/views/* \
+    && php artisan config:clear \
+    && php artisan cache:clear \
+    && php artisan view:clear \
+    && php artisan route:clear
+
+# Permission fix untuk Laravel
+RUN mkdir -p storage/logs \
+    && touch storage/logs/laravel.log \
+    && chmod -R 777 storage bootstrap/cache
+
+# Clear cache otomatis setelah copy file
+RUN php artisan optimize:clear
+
+# Expose port (Railway pakai 8080)
 EXPOSE 8080
 
-# Run Laravel server (Railway uses $PORT)
+RUN php artisan config:clear && php artisan cache:clear
+
+
+# Jalankan Laravel pakai PHP built-in server
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+
