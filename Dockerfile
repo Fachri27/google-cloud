@@ -1,42 +1,46 @@
-# ===== Stage 1: Frontend build =====
-FROM node:20 AS frontend
+# ---------- Base Image ----------
+FROM php:8.2-fpm
 
-WORKDIR /app
+# ---------- System dependencies ----------
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    libzip-dev \
+    curl \
+    npm \
+    nodejs \
+    && docker-php-ext-install pdo_mysql zip
 
-# Copy package files
-COPY package*.json vite.config.js tailwind.config.js postcss.config.js ./
+# ---------- Install Composer ----------
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Install node dependencies
-RUN npm install
-
-# Copy source files
-COPY resources ./resources
-
-# Build frontend
-RUN npm run build
-
-# ===== Stage 2: Backend =====
-FROM php:8.2-cli
-
+# ---------- Set working directory ----------
 WORKDIR /var/www/html
 
-# Install PHP dependencies
-RUN apt-get update && apt-get install -y \
-    unzip git curl libpng-dev libonig-dev libxml2-dev zip \
-    && docker-php-ext-install pdo_mysql mbstring gd \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Copy all Laravel source code
+# ---------- Copy all source code ----------
 COPY . .
 
-# Install PHP dependencies (artisan sudah ada)
+# ---------- Copy composer files & install deps ----------
+COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader
 
-# Copy frontend build from Stage 1
-COPY --from=frontend /app/public/build ./public/build
 
-# Expose port (Railway akan menggunakan PORT env)
+# ---------- Build frontend (Tailwind + Alpine) ----------
+RUN npm install
+RUN npm run build
+
+# ---------- Fix permissions ----------
+RUN chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
+
+# ---------- Clear Laravel cache ----------
+RUN php artisan config:clear \
+    && php artisan cache:clear \
+    && php artisan view:clear \
+    && php artisan route:clear
+
+# ---------- Expose port ----------
 EXPOSE 8080
 
-# Run Laravel server
+# ---------- Start Laravel server ----------
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
