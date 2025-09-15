@@ -24,12 +24,13 @@ RUN apt-get update && apt-get install -y \
 # Install composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Copy Laravel app
+COPY . .
+
 # Copy composer files & install deps
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader
 
-# Copy Laravel app
-COPY . .
 
 # Copy frontend build
 COPY --from=node-build /app/public/build public/build
