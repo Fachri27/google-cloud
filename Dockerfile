@@ -33,4 +33,5 @@ RUN php artisan config:clear \
     && php artisan view:clear
 
 EXPOSE 8080
+
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
