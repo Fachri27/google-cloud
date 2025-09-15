@@ -1,56 +1,44 @@
-# ---------- Stage 1: Build ----------
-FROM node:20 AS frontend-builder
+# --- Stage 1: Build frontend ---
+FROM node:20 AS node-build
 
 WORKDIR /app
 
-# Copy package files & install frontend deps
-COPY package*.json ./
+# Copy package files & install deps
+COPY package.json package-lock.json ./
 RUN npm install
 
-# Copy full frontend source
-COPY . .
-
-# Build Tailwind + Alpine
+# Copy source & build frontend
+COPY resources resources
 RUN npm run build
 
-# ---------- Stage 2: PHP + Laravel ----------
+# --- Stage 2: PHP / Laravel ---
 FROM php:8.2-fpm
-
-# Install system deps & PHP extensions
-RUN apt-get update && apt-get install -y \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip unzip git curl \
-    && docker-php-ext-install pdo_mysql mbstring gd bcmath
-
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Copy Laravel PHP source (except node_modules)
+# Install PHP extensions
+RUN apt-get update && apt-get install -y \
+    libpng-dev libonig-dev libxml2-dev zip unzip git curl \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+
+# Install composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Copy composer files & install deps
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader
+
+# Copy Laravel app
 COPY . .
 
-# Copy built frontend from Stage 1
-COPY --from=frontend-builder /app/public/build ./public/build
-
-# Install PHP deps
-RUN composer install --no-dev --optimize-autoloader
+# Copy frontend build
+COPY --from=node-build /app/public/build public/build
 
 # Set permissions
 RUN chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
-# Clear caches
-RUN php artisan config:clear \
-    && php artisan cache:clear \
-    && php artisan route:clear \
-    && php artisan view:clear
-
-# Expose port (Railway akan pakai $PORT)
-ENV PORT=8080
+# Expose port for Railway
 EXPOSE 8080
 
-# Start Laravel
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+CMD ["php-fpm"]
