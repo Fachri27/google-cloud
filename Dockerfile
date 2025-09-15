@@ -1,61 +1,42 @@
-# ===============================
-# Stage 1: Frontend Build (Tailwind + Alpine via Vite)
-# ===============================
+# ===== Stage 1: Frontend build =====
 FROM node:20 AS frontend
 
 WORKDIR /app
 
-# Copy only package files first (cache layer)
-COPY package*.json vite.config.js postcss.config.js tailwind.config.js ./
+# Copy package files
+COPY package*.json vite.config.js tailwind.config.js postcss.config.js ./
 
-# Install npm dependencies
+# Install node dependencies
 RUN npm install
 
-# Copy frontend resources
+# Copy source files
 COPY resources ./resources
 
-# Build frontend assets
+# Build frontend
 RUN npm run build
 
-
-# ===============================
-# Stage 2: Backend Laravel + Composer
-# ===============================
+# ===== Stage 2: Backend =====
 FROM php:8.2-cli
+
+WORKDIR /var/www/html
 
 # Install PHP dependencies
 RUN apt-get update && apt-get install -y \
     unzip git curl libpng-dev libonig-dev libxml2-dev zip \
-    && docker-php-ext-install pdo_mysql mbstring gd
+    && docker-php-ext-install pdo_mysql mbstring gd \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-WORKDIR /var/www/html
-
-# Copy composer files
-COPY composer.json composer.lock ./
-
-# Copy all source code
+# Copy all Laravel source code
 COPY . .
 
-# Install PHP dependencies
+# Install PHP dependencies (artisan sudah ada)
 RUN composer install --no-dev --optimize-autoloader
 
-# Remove old build folder just in case
-RUN rm -rf public/build
-
-# Copy frontend build from stage frontend
+# Copy frontend build from Stage 1
 COPY --from=frontend /app/public/build ./public/build
 
-# Laravel optimize & cache clear
-RUN php artisan config:clear \
-    && php artisan route:clear \
-    && php artisan view:clear \
-    && php artisan storage:link || true
-
-# Expose port Railway
-EXPOSE 8000
+# Expose port (Railway akan menggunakan PORT env)
+EXPOSE 8080
 
 # Run Laravel server
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
