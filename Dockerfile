@@ -1,10 +1,10 @@
-# Stage 1: build frontend asset dengan Node
-# FROM node:18 AS frontend
-# WORKDIR /app
-# COPY package*.json vite.config.js ./
-# COPY resources ./resources
-# RUN npm ci
-# RUN npm run build
+# Stage 1: Build frontend dengan Node 20
+FROM node:20 AS frontend
+WORKDIR /app
+COPY package*.json vite.config.js ./
+COPY resources ./resources
+RUN npm ci
+RUN npm run build
 
 # Base image PHP
 FROM php:8.2-cli
@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y \
     unzip git curl libpq-dev libzip-dev libonig-dev libxml2-dev \
     && docker-php-ext-install pdo pdo_mysql zip bcmath
 
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs
 
 # Install Composer
@@ -26,8 +26,8 @@ WORKDIR /public
 # Copy semua file project Laravel
 COPY . .
 
-# # Copy hasil build dari stage frontend
-# COPY --from=frontend /app/public/build ./public/build
+# Copy hasil build dari stage frontend
+COPY --from=frontend /app/public/build ./public/build
 
 # Install dependency PHP (vendor)
 RUN composer install --no-dev --optimize-autoloader

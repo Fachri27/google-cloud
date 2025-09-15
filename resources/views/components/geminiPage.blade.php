@@ -17,7 +17,7 @@
     <div 
         x-data="{ 
             selected: 'btn1', 
-            showModal: false,  
+            showModal: false,
             videos: {
                 btn1: 'https://www.youtube.com/embed/YfiLUpNejpE?si=Np5VtViTwWUUHjlA',
                 btn2: 'https://www.youtube.com/embed/XX2XpqklUrE?si=o9T4Gsw3HWafbC84',
@@ -27,66 +27,113 @@
         }"
         class="text-white md:w-full my-[50px]"
     >
-        <div class="flex items-center md:grid md:grid-cols-2 grid-cols-1">
+        <div class="md:flex items-center md:grid md:grid-cols-2 grid-cols-1">
             <div class="max-w-2xl w-full space-y-6">
                 <div class="space-y-4">
                     <button 
                         @click="selected = 'btn1'"
                         :class="{ 'text-blue-400 bg-gray-900': selected === 'btn1' }"
-                        class="w-full text-left hover:rounded-lg hover:bg-gray-900 hover:text-blue-400 p-3 transition"
+                        class="w-full flex justify-between text-left hover:rounded-lg hover:bg-gray-900 hover:text-blue-400 p-3 transition"
                     >
-                        <P class="text-xs font-semibold uppercase">PANDUAN DEVELOPER AI</P>
-                        <P class="text-lg">Pengantar Gemini di Vertex AI</P>
+                        <span>
+                            <P class="text-xs font-semibold uppercase hidden md:block">PANDUAN DEVELOPER AI</P>
+                            <P class="text-lg">Pengantar Gemini di Vertex AI</P>
+                        </span>
+                        <span :class="{'rotate-180': selected === 'btn1', 'md:hidden': selected }" class="transform transition-transform duration-300 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </span>
                     </button>
+                    <template x-if="selected === 'btn1'">
+                        <a href="#" @click.prevent="showModal = true" :class="{'md:hidden': selected}">
+                            <img src="{{ asset('img/img1.png') }}" alt="AI Image" class="rounded-lg shadow-lg w-96">
+                        </a>
+                    </template>
                     <button 
                         @click="selected = 'btn2'"
                         :class="{ 'text-blue-400 bg-gray-900': selected === 'btn2' }"
-                        class="w-full text-left hover:rounded-lg hover:bg-gray-900 hover:text-blue-400 p-3 transition"
+                        class="w-full flex justify-between text-left hover:rounded-lg hover:bg-gray-900 hover:text-blue-400 p-3 transition"
                     >
-                        <P class="text-xs font-semibold uppercase">PANDUAN DEVELOPER AI</P>
-                        <P class="text-lg">Pengantar Gemini di Vertex AI</P>
+                        <span>
+                            <P class="text-xs font-semibold uppercase hidden md:block">PANDUAN DEVELOPER AI</P>
+                            <P class="text-lg">Pengantar Gemini di Vertex AI</P>
+                        </span>
+                        <span :class="{'rotate-180': selected === 'btn2', 'md:hidden': selected }" class="transform transition-transform duration-300 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </span>
                     </button>
+                    <template x-if="selected === 'btn2'">
+                        <a href="#" @click.prevent="showModal = true" :class="{'md:hidden': selected}">
+                            <img src="{{ asset('img/btn2.png') }}" alt="AI Image" class="rounded-lg shadow-lg w-96">
+                        </a>
+                    </template>
                     <button 
                         @click="selected = 'btn3'"
                         :class="{ 'text-blue-400 bg-gray-900': selected === 'btn3' }"
-                        class="w-full text-left hover:rounded-lg hover:bg-gray-900 hover:text-blue-400 p-3 transition"
+                        class="w-full flex justify-between text-left hover:rounded-lg hover:bg-gray-900 hover:text-blue-400 p-3 transition"
                     >
-                        <P class="text-xs font-semibold uppercase">PANDUAN DEVELOPER AI</P>
-                        <P class="text-lg">Pengantar Gemini di Vertex AI</P>
+                        <span>
+                            <P class="text-xs font-semibold uppercase hidden md:block">PANDUAN DEVELOPER AI</P>
+                            <P class="text-lg">Pengantar Gemini di Vertex AI</P>
+                        </span>
+                        <span :class="{'rotate-180': selected === 'btn3', 'md:hidden': selected }" class="transform transition-transform duration-300 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </span>
                     </button>
+                    <template x-if="selected === 'btn3'">
+                        <a href="#" @click.prevent="showModal = true" :class="{'md:hidden': selected}">
+                            <img src="{{ asset('img/btn3.png') }}" alt="AI Image" class="rounded-lg shadow-lg w-96">
+                        </a>
+                    </template>
                     <button 
                         @click="selected = 'btn4'"
                         :class="{ 'text-blue-400 bg-gray-900': selected === 'btn4'}"
-                        class="w-full text-left hover:rounded-lg hover:bg-gray-900 hover:text-blue-400 p-3 transition"
+                        class="w-full flex justify-between text-left hover:rounded-lg hover:bg-gray-900 hover:text-blue-400 p-3 transition"
                     >
-                        <P class="text-xs font-semibold uppercase">PANDUAN DEVELOPER AI</P>
-                        <P class="text-lg">Pengantar Gemini di Vertex AI</P>
+                        <span>
+                            <P class="text-xs font-semibold uppercase hidden md:block">PANDUAN DEVELOPER AI</P>
+                            <P class="text-lg">Pengantar Gemini di Vertex AI</P>
+                        </span>
+                        <span :class="{'rotate-180': selected === 'btn4', 'md:hidden': selected }" class="transform transition-transform duration-300 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </span>
                     </button>
+                    <template x-if="selected === 'btn4'">
+                        <a href="#" @click.prevent="showModal = true" :class="{'md:hidden': selected}">
+                            <img src="{{ asset('img/btn4.png') }}" alt="AI Image" class="rounded-lg shadow-lg w-96">
+                        </a>
+                    </template>
                 </div>
             </div>
-            <div class="flex justify-center pl-[20px]">
-                <div class="mt-8">
+            <div class="md:flex md:justify-center pl-[20px]">
+                <div class="md:mt-8">
                     <template x-if="selected === 'btn1'">
-                        <a href="#" @click.prevent="showModal = true">
+                        <a href="#" @click.prevent="showModal = true" :class="{'hidden': selected, 'md:block': selected, 'md:block': selected}">
                             <img src="{{ asset('img/img1.png') }}" alt="AI Image" class="rounded-lg shadow-lg w-96">
                         </a>
-                        </div>
                     </template>
 
                     <template x-if="selected === 'btn2'">
-                        <a href="#" @click.prevent="showModal = true">
+                        <a href="#" @click.prevent="showModal = true" :class="{'hidden': selected, 'md:block': selected}">
                             <img src="{{ asset('img/btn2.png') }}" alt="Tugas Image" class="rounded-lg shadow-lg w-96">
                         </a>
                     </template>
 
                     <template x-if="selected === 'btn3'">
-                        <a href="#" @click.prevent="showModal = true">
+                        <a href="#" @click.prevent="showModal = true" :class="{'hidden': selected, 'md:block': selected}">
                             <img src="{{ asset('img/btn3.png') }}" alt="Kode Image" class="rounded-lg shadow-lg w-96">
                         </a>
                     </template>
 
                     <template x-if="selected === 'btn4'">
-                        <a href="#" @click.prevent="showModal = true">
+                        <a href="#" @click.prevent="showModal = true" :class="{'hidden': selected, 'md:block': selected}">
                             <img src="{{ asset('img/btn4.png') }}" alt="Kode Image" class="rounded-lg shadow-lg w-96">
                         </a>
                     </template>
