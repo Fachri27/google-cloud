@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Vite;
+use Illuminate\Support\Facades\Blade;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,3 +17,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view('/', 'welcome')->name('home');
+
+Route::get('/debug-manifest', function () {
+    return response()->json(Vite::manifest());
+});
+
+Route::get('/debug-vite', function () {
+    $html = Blade::render('@vite(["resources/sass/app.scss","resources/js/app.js"])');
+    return response($html);
+});
