@@ -38,15 +38,15 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip intl
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # ===========================
+# Copy source code
+# ===========================
+COPY . .
+
+# ===========================
 # Copy composer files & install deps
 # ===========================
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader
-
-# ===========================
-# Copy source code
-# ===========================
-COPY . .
 
 # ===========================
 # Install & build frontend
