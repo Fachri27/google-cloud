@@ -1,78 +1,56 @@
-# ===========================
-# Base image: PHP + Node
-# ===========================
-FROM php:8.2-fpm-alpine
+# ---------- Stage 1: Build ----------
+FROM node:20 AS frontend-builder
 
-# Set working directory
-WORKDIR /var/www/html
+WORKDIR /app
 
-# ===========================
-# Install system dependencies
-# ===========================
-RUN apk add --no-cache \
-    bash \
-    git \
-    unzip \
-    curl \
-    npm \
-    nodejs \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    freetype-dev \
-    oniguruma-dev \
-    postgresql-dev \
-    zlib-dev \
-    icu-dev \
-    libzip-dev \
-    shadow \
-    yarn
+# Copy package files & install frontend deps
+COPY package*.json ./
+RUN npm install
 
-# ===========================
-# Install PHP extensions
-# ===========================
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip intl
-
-# ===========================
-# Install Composer
-# ===========================
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
-# ===========================
-# Copy source code
-# ===========================
+# Copy full frontend source
 COPY . .
 
-# ===========================
-# Copy composer files & install deps
-# ===========================
-COPY composer.json composer.lock ./
+# Build Tailwind + Alpine
+RUN npm run build
+
+# ---------- Stage 2: PHP + Laravel ----------
+FROM php:8.2-fpm
+
+# Install system deps & PHP extensions
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip unzip git curl \
+    && docker-php-ext-install pdo_mysql mbstring gd bcmath
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/html
+
+# Copy Laravel PHP source (except node_modules)
+COPY . .
+
+# Copy built frontend from Stage 1
+COPY --from=frontend-builder /app/public/build ./public/build
+
+# Install PHP deps
 RUN composer install --no-dev --optimize-autoloader
 
-# ===========================
-# Install & build frontend
-# ===========================
-RUN npm install && npm run build
+# Set permissions
+RUN chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
-# ===========================
-# Fix permissions
-# ===========================
-RUN chown -R www-data:www-data storage bootstrap/cache public \
-    && chmod -R 775 storage bootstrap/cache public
-
-# ===========================
 # Clear caches
-# ===========================
 RUN php artisan config:clear \
     && php artisan cache:clear \
     && php artisan route:clear \
     && php artisan view:clear
 
-# ===========================
-# Expose port for Railway
-# ===========================
+# Expose port (Railway akan pakai $PORT)
+ENV PORT=8080
 EXPOSE 8080
 
-# ===========================
-# Start Laravel server
-# ===========================
+# Start Laravel
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
