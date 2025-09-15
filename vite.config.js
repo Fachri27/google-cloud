@@ -1,15 +1,19 @@
-import { defineConfig } from 'vite'
-import laravel from 'laravel-vite-plugin'
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
 
 export default defineConfig({
-    base: process.env.ASSET_URL ? process.env.ASSET_URL + '/build/' : '/build/',
     plugins: [
         laravel({
             input: ['resources/sass/app.scss', 'resources/js/app.js'],
             refresh: true,
         }),
     ],
-    server: {
-        https: true, // biar dev server pakai https
-    }
-})
+    build: {
+        outDir: 'public/build',
+        manifest: true,
+        rollupOptions: {
+            input: ['resources/sass/app.scss', 'resources/js/app.js'],
+        },
+    },
+    base: 'https://clone-google-cloud-production-91f1.up.railway.app/build/', // 🔥 langsung pakai HTTPS
+});
