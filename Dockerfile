@@ -1,11 +1,3 @@
-# Stage 1: Build frontend dengan Node 20
-FROM node:20 AS frontend
-WORKDIR /app
-COPY package*.json vite.config.js ./
-COPY resources ./resources
-RUN npm ci
-RUN npm run build
-
 # Base image PHP
 FROM php:8.2-cli
 
@@ -14,17 +6,30 @@ RUN apt-get update && apt-get install -y \
     unzip git curl libpq-dev libzip-dev libonig-dev libxml2-dev \
     && docker-php-ext-install pdo pdo_mysql zip bcmath
 
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+# Install Node.js (LTS)
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
     && apt-get install -y nodejs
+
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Set working directory
-WORKDIR /var/www/html
+WORKDIR /app
+
+# Copy composer dan npm files
+COPY composer.json package.json ./
+
+# Copy .env file
+COPY .env .env
 
 # Copy semua file project Laravel
 COPY . .
+
+# Install npm dependencies & build assets
+RUN npm install
+RUN chmod +x node_modules/.bin/vite
+RUN npm run build
 
 # Copy hasil build dari stage frontend
 COPY --from=frontend /app/public/build ./public/build
@@ -33,8 +38,8 @@ COPY --from=frontend /app/public/build ./public/build
 RUN composer install --no-dev --optimize-autoloader
 
 
-# Permission untuk Laravel
-RUN chmod -R 777 storage bootstrap/cache
+# Pastikan permission folder
+RUN chown -R www-data:www-data storage bootstrap/cache && chmod -R 775 storage bootstrap/cache
 
 # ✅ Hapus cache Laravel biar baca manifest terbaru
 RUN rm -rf bootstrap/cache/*.php storage/framework/views/* \
@@ -51,11 +56,10 @@ RUN mkdir -p storage/logs \
 # Clear cache otomatis setelah copy file
 RUN php artisan optimize:clear
 
-# Expose port (Railway pakai 8080)
-EXPOSE 8080
-
 RUN php artisan config:clear && php artisan cache:clear
 
+# Expose port (Railway pakai 8080)
+EXPOSE 8080
 
 # Jalankan Laravel pakai PHP built-in server
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
