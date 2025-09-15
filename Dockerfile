@@ -1,50 +1,32 @@
-# ===========================
-# Stage 1: Frontend build (Tailwind + Alpine via Vite)
-# ===========================
-FROM node:20 AS frontend
+# Base image PHP
+FROM php:8.2-cli
 
-WORKDIR /app
-
-COPY package*.json vite.config.js ./
-RUN npm install
-
-COPY resources ./resources
-COPY postcss.config.js tailwind.config.js ./
-RUN npm run build
-
-
-# ===========================
-# Stage 2: Backend (Laravel + Composer)
-# ===========================
-FROM php:8.2-cli AS backend
-
+# Install ekstensi PHP yang dibutuhkan Laravel
 RUN apt-get update && apt-get install -y \
-    git unzip libpng-dev libonig-dev libxml2-dev zip curl \
+    unzip git curl libpng-dev libonig-dev libxml2-dev zip \
     && docker-php-ext-install pdo_mysql mbstring gd
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Install Node.js (untuk Tailwind & Alpine)
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
 
-WORKDIR /var/www/html
+# Set workdir
+WORKDIR /var/www
 
-
-# Copy semua source code dulu
+# Copy semua source code (bukan cuma composer.json)
 COPY . .
 
-# Copy composer files & install deps
-COPY composer.json composer.lock ./
+# Install dependencies PHP
 RUN composer install --no-dev --optimize-autoloader
 
-# Copy source code (kecuali public/build)
-COPY . .
-RUN rm -rf public/build
+# Install & build frontend
+RUN npm install && npm run build
 
-# Copy hasil build terbaru dari stage frontend
-COPY --from=frontend /app/public/build ./public/build
+# Laravel optimize
+RUN php artisan config:clear && php artisan cache:clear
 
-# Clear & optimize Laravel cache
-RUN php artisan config:clear \
-    && php artisan route:clear \
-    && php artisan view:clear \
-    && php artisan storage:link || true
+# Expose port
+EXPOSE 8000
 
-CMD php artisan serve --host=0.0.0.0 --port=$PORT
+# Jalankan server Laravel
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
