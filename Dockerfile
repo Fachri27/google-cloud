@@ -1,61 +1,78 @@
-# ===============================
-# Stage 1: Frontend Build (Tailwind + Alpine via Vite)
-# ===============================
-FROM node:20 AS frontend
+# ===========================
+# Base image: PHP + Node
+# ===========================
+FROM php:8.2-fpm-alpine
 
-WORKDIR /app
-
-# Copy only package files first (cache layer)
-COPY package*.json vite.config.js postcss.config.js tailwind.config.js ./
-
-# Install npm dependencies
-RUN npm install
-
-# Copy frontend resources
-COPY resources ./resources
-
-# Build frontend assets
-RUN npm run build
-
-
-# ===============================
-# Stage 2: Backend Laravel + Composer
-# ===============================
-FROM php:8.2-cli
-
-# Install PHP dependencies
-RUN apt-get update && apt-get install -y \
-    unzip git curl libpng-dev libonig-dev libxml2-dev zip \
-    && docker-php-ext-install pdo_mysql mbstring gd
-
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
+# Set working directory
 WORKDIR /var/www/html
 
-# Copy composer files
+# ===========================
+# Install system dependencies
+# ===========================
+RUN apk add --no-cache \
+    bash \
+    git \
+    unzip \
+    curl \
+    npm \
+    nodejs \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    oniguruma-dev \
+    postgresql-dev \
+    zlib-dev \
+    icu-dev \
+    libzip-dev \
+    shadow \
+    yarn
+
+# ===========================
+# Install PHP extensions
+# ===========================
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip intl
+
+# ===========================
+# Install Composer
+# ===========================
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# ===========================
+# Copy composer files & install deps
+# ===========================
 COPY composer.json composer.lock ./
-
-# Copy all source code
-COPY . .
-
-# Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Remove old build folder just in case
-RUN rm -rf public/build
+# ===========================
+# Copy source code
+# ===========================
+COPY . .
 
-# Copy frontend build from stage frontend
-COPY --from=frontend /app/public/build ./public/build
+# ===========================
+# Install & build frontend
+# ===========================
+RUN npm install && npm run build
 
-# Laravel optimize & cache clear
+# ===========================
+# Fix permissions
+# ===========================
+RUN chown -R www-data:www-data storage bootstrap/cache public \
+    && chmod -R 775 storage bootstrap/cache public
+
+# ===========================
+# Clear caches
+# ===========================
 RUN php artisan config:clear \
+    && php artisan cache:clear \
     && php artisan route:clear \
-    && php artisan view:clear \
-    && php artisan storage:link || true
+    && php artisan view:clear
 
-# Expose port Railway
-EXPOSE 8000
+# ===========================
+# Expose port for Railway
+# ===========================
+EXPOSE 8080
 
-# Run Laravel server
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# ===========================
+# Start Laravel server
+# ===========================
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
