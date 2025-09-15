@@ -1,11 +1,5 @@
 {
     "build": {
         "dockerfile": "Dockerfile"
-    },
-    "env": {
-        "APP_ENV": "production",
-        "APP_KEY": "base64:lWos8AmKCAyB77jPbFTGQ23zOxzS+TchMHTF4FtG7y8=",
-        "APP_DEBUG": "false",
-        "APP_URL": "https://googlecloud-two.vercel.app/"
     }
 }
