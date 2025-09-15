@@ -62,45 +62,20 @@
 # # Jalankan Laravel pakai PHP built-in server
 # CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
 
-# Stage 1: Build dependencies & assets
-FROM php:8.2-fpm AS build
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    libpng-dev libonig-dev libxml2-dev zip unzip git curl nodejs npm \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
-
-# Install Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Gunakan image resmi PHP dengan Apache
+FROM php:8.2-apache
 
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy PHP dependencies & install
-COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader
+# Copy semua file project ke container
+COPY . .
 
-# Copy Node.js dependencies & build frontend
-COPY package.json package-lock.json vite.config.js tailwind.config.js postcss.config.js ./
-RUN npm install
-COPY resources ./resources
-RUN npm run build
+# Install ekstensi PHP yang sering dipakai
+RUN docker-php-ext-install pdo pdo_mysql mbstring
 
-# Stage 2: Production
-FROM php:8.2-fpm
+# Expose port 80 untuk web
+EXPOSE 80
 
-# Install PHP extensions
-RUN apt-get update && apt-get install -y libpng-dev libonig-dev libxml2-dev zip unzip git curl \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
-
-WORKDIR /var/www/html
-
-# Copy built app from build stage
-COPY --from=build /var/www/html /var/www/html
-
-# Set permissions
-RUN chown -R www-data:www-data storage bootstrap/cache \
-    && chmod -R 775 storage bootstrap/cache
-
-EXPOSE 9000
-CMD ["php-fpm"]
+# Jalankan Apache
+CMD ["apache2-foreground"]
