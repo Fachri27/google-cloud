@@ -32,8 +32,6 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Copy composer files first for caching
 COPY composer.json composer.lock ./
