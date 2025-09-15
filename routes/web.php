@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\File;
+
 
 
 /*
@@ -19,7 +21,30 @@ use Illuminate\Support\Facades\Blade;
 Route::view('/', 'welcome')->name('home');
 
 Route::get('/debug-manifest', function () {
-    return response()->json(Vite::manifest());
+    try {
+        $path = public_path('build/manifest.json');
+
+        if (!File::exists($path)) {
+            return response()->json([
+                'error' => 'manifest.json tidak ditemukan',
+                'path' => $path
+            ], 500);
+        }
+
+        $manifest = json_decode(File::get($path), true);
+
+        return response()->json([
+            'success' => true,
+            'path' => $path,
+            'manifest' => $manifest,
+            'vite' => Vite::asset('resources/js/app.js')
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ], 500);
+    }
 });
 
 Route::get('/debug-vite', function () {
