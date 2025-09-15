@@ -42,13 +42,15 @@ RUN mkdir -p storage/logs \
     && chmod -R 777 storage bootstrap/cache
 
 
-    
+
 # Clear Laravel cache
 RUN php artisan config:clear \
     && php artisan cache:clear \
     && php artisan view:clear \
     && php artisan route:clear
 
+# Clear cache otomatis setelah copy file
+RUN php artisan optimize:clear
 
 # Expose port (Railway pakai 8080)
 EXPOSE 8080
