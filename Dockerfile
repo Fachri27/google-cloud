@@ -21,7 +21,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Set working directory
-WORKDIR /public
+WORKDIR /var/www/html
 
 # Copy semua file project Laravel
 COPY . .
@@ -36,18 +36,17 @@ RUN composer install --no-dev --optimize-autoloader
 # Permission untuk Laravel
 RUN chmod -R 777 storage bootstrap/cache
 
+# ✅ Hapus cache Laravel biar baca manifest terbaru
+RUN rm -rf bootstrap/cache/*.php storage/framework/views/* \
+    && php artisan config:clear \
+    && php artisan cache:clear \
+    && php artisan view:clear \
+    && php artisan route:clear
+
 # Permission fix untuk Laravel
 RUN mkdir -p storage/logs \
     && touch storage/logs/laravel.log \
     && chmod -R 777 storage bootstrap/cache
-
-
-
-# Clear Laravel cache
-RUN php artisan config:clear \
-    && php artisan cache:clear \
-    && php artisan view:clear \
-    && php artisan route:clear
 
 # Clear cache otomatis setelah copy file
 RUN php artisan optimize:clear
