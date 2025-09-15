@@ -1,46 +1,61 @@
-# ---------- Base Image ----------
-FROM php:8.2-fpm
+# ===============================
+# Stage 1: Frontend Build (Tailwind + Alpine via Vite)
+# ===============================
+FROM node:20 AS frontend
 
-# ---------- System dependencies ----------
-RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    libzip-dev \
-    curl \
-    npm \
-    nodejs \
-    && docker-php-ext-install pdo_mysql zip
+WORKDIR /app
 
-# ---------- Install Composer ----------
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Copy only package files first (cache layer)
+COPY package*.json vite.config.js postcss.config.js tailwind.config.js ./
 
-# ---------- Set working directory ----------
-WORKDIR /var/www/html
-
-# ---------- Copy all source code ----------
-COPY . .
-
-# ---------- Copy composer files & install deps ----------
-COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader
-
-
-# ---------- Build frontend (Tailwind + Alpine) ----------
+# Install npm dependencies
 RUN npm install
+
+# Copy frontend resources
+COPY resources ./resources
+
+# Build frontend assets
 RUN npm run build
 
-# ---------- Fix permissions ----------
-RUN chown -R www-data:www-data storage bootstrap/cache \
-    && chmod -R 775 storage bootstrap/cache
 
-# ---------- Clear Laravel cache ----------
+# ===============================
+# Stage 2: Backend Laravel + Composer
+# ===============================
+FROM php:8.2-cli
+
+# Install PHP dependencies
+RUN apt-get update && apt-get install -y \
+    unzip git curl libpng-dev libonig-dev libxml2-dev zip \
+    && docker-php-ext-install pdo_mysql mbstring gd
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+WORKDIR /var/www/html
+
+# Copy composer files
+COPY composer.json composer.lock ./
+
+# Copy all source code
+COPY . .
+
+# Install PHP dependencies
+RUN composer install --no-dev --optimize-autoloader
+
+# Remove old build folder just in case
+RUN rm -rf public/build
+
+# Copy frontend build from stage frontend
+COPY --from=frontend /app/public/build ./public/build
+
+# Laravel optimize & cache clear
 RUN php artisan config:clear \
-    && php artisan cache:clear \
+    && php artisan route:clear \
     && php artisan view:clear \
-    && php artisan route:clear
+    && php artisan storage:link || true
 
-# ---------- Expose port ----------
-EXPOSE 8080
+# Expose port Railway
+EXPOSE 8000
 
-# ---------- Start Laravel server ----------
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+# Run Laravel server
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
