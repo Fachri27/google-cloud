@@ -1,5 +1,12 @@
 [build]
 builder = "Dockerfile"
 
+cmds = [
+  "composer install --no-dev --optimize-autoloader",
+  "npm install",
+  "npm run build"
+]
+
 [deploy]
 startCommand = "apache2-foreground"
+
