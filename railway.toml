@@ -1,6 +1,3 @@
-[build]
-builder = "herokuish"
-
 [phases.build]
 cmds = [
   # Install PHP dependencies
