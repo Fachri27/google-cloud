@@ -1,3 +1,5 @@
+builder = "DOCKERFILE"
+
 [phases.build]
 cmds = [
   # Install PHP dependencies
