@@ -1,296 +1,274 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-                    <title>Clone-googlecloud</title>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Clone-googlecloud</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="http://127.0.0.1:8000/favicon.ico">
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Alpine -->
+    <script src="https://unpkg.com/alpinejs" defer></script>
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <script type="module" src="http://[::1]:5173/@vite/client"></script>
+    <link rel="stylesheet" href="http://[::1]:5173/resources/sass/app.scss" />
+    <script type="module" src="http://[::1]:5173/resources/js/app.js"></script>
+    <!-- Livewire Styles -->
+    <style>
+        [wire\:loading],
+        [wire\:loading\.delay],
+        [wire\:loading\.inline-block],
+        [wire\:loading\.inline],
+        [wire\:loading\.block],
+        [wire\:loading\.flex],
+        [wire\:loading\.table],
+        [wire\:loading\.grid],
+        [wire\:loading\.inline-flex] {
+            display: none;
+        }
         
-        <!-- Favicon -->
-		<link rel="shortcut icon" href="http://127.0.0.1:8000/favicon.ico">
+        [wire\:loading\.delay\.shortest],
+        [wire\:loading\.delay\.shorter],
+        [wire\:loading\.delay\.short],
+        [wire\:loading\.delay\.long],
+        [wire\:loading\.delay\.longer],
+        [wire\:loading\.delay\.longest] {
+            display: none;
+        }
+        
+        [wire\:offline] {
+            display: none;
+        }
+        
+        [wire\:dirty]:not(textarea):not(input):not(select) {
+            display: none;
+        }
+        
+        input:-webkit-autofill,
+        select:-webkit-autofill,
+        textarea:-webkit-autofill {
+            animation-duration: 50000s;
+            animation-name: livewireautofill;
+        }
+        
+        @keyframes livewireautofill {
+            from {}
+        }
+    </style>
+    <!-- Livewire Scripts -->
 
-        <!-- Fonts -->
-        <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-        <script type="module" src="http://[::1]:5173/@vite/client"></script><link rel="stylesheet" href="http://[::1]:5173/resources/sass/app.scss" /><script type="module" src="http://[::1]:5173/resources/js/app.js"></script>        
-        <!-- Livewire Styles -->
-<style >
-    [wire\:loading], [wire\:loading\.delay], [wire\:loading\.inline-block], [wire\:loading\.inline], [wire\:loading\.block], [wire\:loading\.flex], [wire\:loading\.table], [wire\:loading\.grid], [wire\:loading\.inline-flex] {
-        display: none;
-    }
+    <script src="/livewire/livewire.js?id=90730a3b0e7144480175" data-turbo-eval="false" data-turbolinks-eval="false"></script>
+    <script data-turbo-eval="false" data-turbolinks-eval="false">
+        if (window.livewire) {
+            console.warn('Livewire: It looks like Livewire\'s @livewireScripts JavaScript assets have already been loaded. Make sure you aren\'t loading them twice.')
+        }
 
-    [wire\:loading\.delay\.shortest], [wire\:loading\.delay\.shorter], [wire\:loading\.delay\.short], [wire\:loading\.delay\.long], [wire\:loading\.delay\.longer], [wire\:loading\.delay\.longest] {
-        display:none;
-    }
+        window.livewire = new Livewire();
+        window.livewire.devTools(true);
+        window.Livewire = window.livewire;
+        window.livewire_app_url = '';
+        window.livewire_token = 'u39J0gtEqqB98XBILPNbFzGcDFs3XHUlsGENwk1z';
 
-    [wire\:offline] {
-        display: none;
-    }
+        /* Make sure Livewire loads first. */
+        if (window.Alpine) {
+            /* Defer showing the warning so it doesn't get buried under downstream errors. */
+            document.addEventListener("DOMContentLoaded", function() {
+                setTimeout(function() {
+                    console.warn("Livewire: It looks like AlpineJS has already been loaded. Make sure Livewire\'s scripts are loaded before Alpine.\\n\\n Reference docs for more info: http://laravel-livewire.com/docs/alpine-js")
+                })
+            });
+        }
 
-    [wire\:dirty]:not(textarea):not(input):not(select) {
-        display: none;
-    }
+        /* Make Alpine wait until Livewire is finished rendering to do its thing. */
+        window.deferLoadingAlpine = function(callback) {
+            window.addEventListener('livewire:load', function() {
+                callback();
+            });
+        };
 
-    input:-webkit-autofill, select:-webkit-autofill, textarea:-webkit-autofill {
-        animation-duration: 50000s;
-        animation-name: livewireautofill;
-    }
+        let started = false;
 
-    @keyframes livewireautofill { from {} }
-</style>
-        <!-- Livewire Scripts -->
+        window.addEventListener('alpine:initializing', function() {
+            if (!started) {
+                window.livewire.start();
 
-<script src="/livewire/livewire.js?id=90730a3b0e7144480175" data-turbo-eval="false" data-turbolinks-eval="false" ></script>
-<script data-turbo-eval="false" data-turbolinks-eval="false" >
-    if (window.livewire) {
-	    console.warn('Livewire: It looks like Livewire\'s @livewireScripts JavaScript assets have already been loaded. Make sure you aren\'t loading them twice.')
-	}
-
-    window.livewire = new Livewire();
-    window.livewire.devTools(true);
-    window.Livewire = window.livewire;
-    window.livewire_app_url = '';
-    window.livewire_token = 'u39J0gtEqqB98XBILPNbFzGcDFs3XHUlsGENwk1z';
-
-	/* Make sure Livewire loads first. */
-	if (window.Alpine) {
-	    /* Defer showing the warning so it doesn't get buried under downstream errors. */
-	    document.addEventListener("DOMContentLoaded", function () {
-	        setTimeout(function() {
-	            console.warn("Livewire: It looks like AlpineJS has already been loaded. Make sure Livewire\'s scripts are loaded before Alpine.\\n\\n Reference docs for more info: http://laravel-livewire.com/docs/alpine-js")
-	        })
-	    });
-	}
-
-	/* Make Alpine wait until Livewire is finished rendering to do its thing. */
-    window.deferLoadingAlpine = function (callback) {
-        window.addEventListener('livewire:load', function () {
-            callback();
+                started = true;
+            }
         });
-    };
 
-    let started = false;
+        document.addEventListener("DOMContentLoaded", function() {
+            if (!started) {
+                window.livewire.start();
 
-    window.addEventListener('alpine:initializing', function () {
-        if (! started) {
-            window.livewire.start();
+                started = true;
+            }
+        });
+    </script>
 
-            started = true;
-        }
-    });
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="u39J0gtEqqB98XBILPNbFzGcDFs3XHUlsGENwk1z">
+</head>
 
-    document.addEventListener("DOMContentLoaded", function () {
-        if (! started) {
-            window.livewire.start();
+<body>
+    <nav x-data="{ open: false, search: false}" class="sticky top-0 bg-white z-50">
+        <div class="flex items-center md:justify-between px-6 py-3">
 
-            started = true;
-        }
-    });
-</script>
 
-        <!-- CSRF Token -->
-        <meta name="csrf-token" content="u39J0gtEqqB98XBILPNbFzGcDFs3XHUlsGENwk1z">
-    </head>
-
-    <body>
-            <nav x-data="{ open: false, search: false}" class="sticky top-0 bg-white z-50">
-    <div class="flex items-center md:justify-between px-6 py-3">
-         
-        
-        <div class="flex items-center">
-            <button @click="open = true" class="md:hidden">
+            <div class="flex items-center">
+                <button @click="open = true" class="md:hidden">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                 </svg>
             </button>
-        </div>
-        <div :class="{'hidden': search, 'flex': !search}" class="md:flex items-center">
-            <img src="http://127.0.0.1:8000/logo.png" alt="" class="w-[150px]">
-        </div>
-        <div x-show="!search" class="flex items-center">
-            <div class="hidden md:flex text-sm text-[#5F6368] space-x-6 px-9">
-                <a href="" class="hover:text-black">Ringkasan</a>
-                <a href="" class="hover:text-black">Solusi</a>
-                <a href="" class="hover:text-black">Produk</a>
-                <a href="" class="hover:text-black">Harga</a>
-                <a href="" class="hover:text-black">Resource</a>
             </div>
-        </div>
-        <div class="flex items-center space-x-6 text-sm text-[#5F6368] ml-auto">
-            <div class=" top-14 left-0 bg-white shadow-md rounded-md">
-                <input 
-                x-show="search" 
-                x-transition:enter="transition ease-out duration-300 transform"
-                x-transition:enter-start="opacity-0 scale-95"
-                x-transition:enter-end="opacity-100 scale-100"
-                @click.away="search = false" 
-                class="flex-grow flex w-64 items-center focus:outline-none border-none md:w-[800px] w-[220px]"
-                type="text" 
-                placeholder="Search"
-            >
+            <div :class="{'hidden': search, 'flex': !search}" class="md:flex items-center">
+                <img src="http://127.0.0.1:8000/logo.png" alt="" class="w-[150px]">
             </div>
-            <button @click="search = !search" x-show="!search" class="flex items-center px-6 ">
+            <div x-show="!search" class="flex items-center">
+                <div class="hidden md:flex text-sm text-[#5F6368] space-x-6 px-9">
+                    <a href="" class="hover:text-black">Ringkasan</a>
+                    <a href="" class="hover:text-black">Solusi</a>
+                    <a href="" class="hover:text-black">Produk</a>
+                    <a href="" class="hover:text-black">Harga</a>
+                    <a href="" class="hover:text-black">Resource</a>
+                </div>
+            </div>
+            <div class="flex items-center space-x-6 text-sm text-[#5F6368] ml-auto">
+                <div class=" top-14 left-0 bg-white shadow-md rounded-md">
+                    <input x-show="search" x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" @click.away="search = false" class="flex-grow flex w-64 items-center focus:outline-none border-none md:w-[800px] w-[220px]"
+                        type="text" placeholder="Search">
+                </div>
+                <button @click="search = !search" x-show="!search" class="flex items-center px-6 ">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                 </svg>
             </button>
-            <div class="hidden md:flex items-center space-x-6">
-                <a href="#" class="hover:text-black">Dokumen</a>
-                <a href="#" class="hover:text-black">Dukungan</a>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#" class="hover:text-black">Dokumen</a>
+                    <a href="#" class="hover:text-black">Dukungan</a>
+                </div>
+                <a href="#" class="text-blue-600 hover:text-blue-800 font-medium items-center space-x-6 ">Login</a>
             </div>
-            <a href="#" class="text-blue-600 hover:text-blue-800 font-medium items-center space-x-6 ">Login</a>
         </div>
-    </div>
 
-    
-    <div
-    x-show="open"
-    x-transitio.opacity
-    @click="open = false"
-    class="fixed inset-0 bg-black bg-opacity-50 z-40"
-    ></div>
-   
-    
-    <div 
-    x-show="open"
-    x-transition:enter="transition transform duration-300"
-    x-transition:enter-start="-translate-x-full"
-    x-transition:enter-end="translate-x-0"
-    x-transition:leave="transition transform duration-300"
-    x-transition:leave-start="translate-x-0"
-    x-transition:leave-end="-translate-x-full"
-    class="flex flex-col md:hidden fixed top-0 left-0 h-screen w-1/2 bg-white shadow-lg z-50 p-6"
-    >
-        <div class="flex items-center justify-between mb-6">
-            <button @click="open = false" class="text-gray-600 hover:text-black text-2xl">
+
+        <div x-show="open" x-transitio.opacity @click="open = false" class="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+
+
+        <div x-show="open" x-transition:enter="transition transform duration-300" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition transform duration-300" x-transition:leave-start="translate-x-0"
+            x-transition:leave-end="-translate-x-full" class="flex flex-col md:hidden fixed top-0 left-0 h-screen w-1/2 bg-white shadow-lg z-50 p-6">
+            <div class="flex items-center justify-between mb-6">
+                <button @click="open = false" class="text-gray-600 hover:text-black text-2xl">
                 ✕
             </button>
-            <img src="http://127.0.0.1:8000/logo.png" alt="" class="w-[150px]">
+                <img src="http://127.0.0.1:8000/logo.png" alt="" class="w-[150px]">
+            </div>
+            <nav class="text-[#5F6368] space-y-5 text-sm">
+                <a href="#" class="block hover:text-black">Ringkasan</a>
+                <a href="#" class="block hover:text-black">Solusi</a>
+                <a href="#" class="block hover:text-black">Produk</a>
+                <a href="#" class="block hover:text-black">Harga</a>
+                <a href="#" class="block hover:text-black">Resource</a>
+                <a href="#" class="block hover:text-black">Dokumen</a>
+                <a href="#" class="block hover:text-black">Dukungan</a>
+            </nav>
         </div>
-        <nav class="text-[#5F6368] space-y-5 text-sm">
-            <a href="#" class="block hover:text-black">Ringkasan</a>
-            <a href="#" class="block hover:text-black">Solusi</a>
-            <a href="#" class="block hover:text-black">Produk</a>
-            <a href="#" class="block hover:text-black">Harga</a>
-            <a href="#" class="block hover:text-black">Resource</a>
-            <a href="#" class="block hover:text-black">Dokumen</a>
-            <a href="#" class="block hover:text-black">Dukungan</a>
-        </nav>
-    </div>
-    <div class="py-2 border-t-2">
-        <div class="flex items-center mx-auto justify-end space-x-4 pr-7 shadow-md w-full pb-2">
-            <button class="border-2 rounded-full outline-blue-500 bg-white h-auto py-1 hover:shadow">
+        <div class="py-2 border-t-2">
+            <div class="flex items-center mx-auto justify-end space-x-4 pr-7 shadow-md w-full pb-2">
+                <button class="border-2 rounded-full outline-blue-500 bg-white h-auto py-1 hover:shadow">
                 <a href="" class="px-5 text-sm text-[#0B57D0] ">Hubungi Kami</a>
             </button>
-            <button class="rounded-full outline-blue-500 bg-[#0B57D0] h-auto py-1 hover:bg-blue-600">
+                <button class="rounded-full outline-blue-500 bg-[#0B57D0] h-auto py-1 hover:bg-blue-600">
                 <a href="" class="px-5 text-sm text-white ">Mulai Gratis</a>
             </button>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
     <div class="xl:container lg:grid lg:grid-cols-2 mx-auto">
-    <div class="flex flex-col mt-10">
-        <div class="flex justify-between bg-blue-100 px-5 py-4 lg:mx-[50px] mx-[35px] text-sm text-blue-700 rounded">
-            <p>
-                <span class="text-[#0B57D0] font-bold">Dapatkan $300</span> dalam bentuk kredit gratis dan penggunaan 20+ produk secara gratis
-            </p>
-            <div class="pl-6">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-7">
+        <div class="flex flex-col mt-10">
+            <div class="flex justify-between bg-blue-100 px-5 py-4 lg:mx-[50px] mx-[35px] text-sm text-blue-700 rounded">
+                <p>
+                    <span class="text-[#0B57D0] font-bold">Dapatkan $300</span> dalam bentuk kredit gratis dan penggunaan 20+ produk secara gratis
+                </p>
+                <div class="pl-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-7">
                   <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm4.28 10.28a.75.75 0 0 0 0-1.06l-3-3a.75.75 0 1 0-1.06 1.06l1.72 1.72H8.25a.75.75 0 0 0 0 1.5h5.69l-1.72 1.72a.75.75 0 1 0 1.06 1.06l3-3Z" clip-rule="evenodd" />
                 </svg>
+                </div>
             </div>
-        </div>
-        <div class="flex justify-between space-x-1 lg:mx-[50px] mx-[35px] my-6 leading-tight tracking-wide">
-            <div class="lg:text-[50px] text-[35px] font-bold bg-gradient-to-b from-blue-600 to-green-500 inline bg-clip-text text-transparent font-roboto">
-                Cara baru bekerja di cloud dimulai dari sini
+            <div class="flex justify-between space-x-1 lg:mx-[50px] mx-[35px] my-6 leading-tight tracking-wide">
+                <div class="lg:text-[50px] text-[35px] font-bold bg-gradient-to-b from-blue-600 to-green-500 inline bg-clip-text text-transparent font-roboto">
+                    Cara baru bekerja di cloud dimulai dari sini
+                </div>
             </div>
-        </div>
-        <div class="flex justify-between lg:mx-[50px] mx-[35px] tracking-tight">
-            Bangun dengan AI generatif, deploy aplikasi dengan cepat, dan analisis data dalam hitungan detik—semuanya dengan keamanan berkualitas Google.
-        </div>
-        <div class="flex lg:mx-[50px] py-[30px] mx-[35px] space-x-5">
-            <button class="rounded-full w-[200px] outline-blue-500 bg-[#0B57D0] h-auto py-1 hover:bg-blue-600">
+            <div class="flex justify-between lg:mx-[50px] mx-[35px] tracking-tight">
+                Bangun dengan AI generatif, deploy aplikasi dengan cepat, dan analisis data dalam hitungan detik—semuanya dengan keamanan berkualitas Google.
+            </div>
+            <div class="flex lg:mx-[50px] py-[30px] mx-[35px] space-x-5">
+                <button class="rounded-full w-[200px] outline-blue-500 bg-[#0B57D0] h-auto py-1 hover:bg-blue-600">
                 <a href="" class="px-5 text-sm text-white ">Mulai Gratis</a>
             </button>
-            <button class="border-2 w-[200px] rounded-full outline-blue-500 bg-white h-auto py-1 hover:shadow">
+                <button class="border-2 w-[200px] rounded-full outline-blue-500 bg-white h-auto py-1 hover:shadow">
                 <a href="" class="px-5 text-sm text-[#0B57D0] ">Hubungi Kami</a>
             </button>
+            </div>
         </div>
-    </div>
-    <div x-data="{ showModal: false }" class="flex mt-10 mb-0">
-        <div class="flex justify-between mx-auto">
-            <a @click.prevent="showModal = true" href="#">
-                <img src="http://127.0.0.1:8000/modul.png" alt="" class="z-10 md:w-[450px] w-[350px] rounded-3xl hover:rounded-none">
-            </a>
-            <div
-            x-show="showModal"
-            x-transition:enter="ease-out duration-300"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="ease-in duration-200"
-            x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0"
-            style="display: none;"
-            >
-                <div class="fixed inset-0 z-50 bg-black bg-opacity-75 flex items-center justify-center transition-opacity m">
-                    <div @click.away="showModal = false" @keydown.escape.window="showModal = false" class="bg-white lg:w-[900px] w-[450px] rounded-xl">
-                        <div class="aspect-w-16 aspect-h-9 my-[30px] mx-[50px] border-2">
-                            <iframe class="lg:w-[800px] lg:h-[400px] w-[350px] h-[200px]" src="https://www.youtube.com/embed/dwgmfSOZNoQ?si=84uoomDD9BQE0FOt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                        </div>
-                        <div class="lg:flex justify-between my-[50px] mx-[50px] lg:space-x-4">
-                            <div class="text-gray-500">
-                                Coba produk Google Cloud dan bangun bukti konsep dengan kredit gratis
-                                senilai $300.
+        <div x-data="{ showModal: false }" class="flex mt-10 mb-0">
+            <div class="flex justify-between mx-auto">
+                <a @click.prevent="showModal = true" href="#">
+                    <img src="http://127.0.0.1:8000/modul.png" alt="" class="z-10 md:w-[450px] w-[350px] rounded-3xl hover:rounded-none">
+                </a>
+                <div x-show="showModal" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                    style="display: none;">
+                    <div class="fixed inset-0 z-50 bg-black bg-opacity-75 flex items-center justify-center transition-opacity m">
+                        <div @click.away="showModal = false" @keydown.escape.window="showModal = false" class="bg-white lg:w-[900px] w-[450px] rounded-xl">
+                            <div class="aspect-w-16 aspect-h-9 my-[30px] mx-[50px] border-2">
+                                <iframe class="lg:w-[800px] lg:h-[400px] w-[350px] h-[200px]" src="https://www.youtube.com/embed/dwgmfSOZNoQ?si=84uoomDD9BQE0FOt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                             </div>
-                           <button class="bg-[#0B57D0] text-white rounded-3xl lg:p-3 text-xs p-3 mt-6">Mulai secara gratis</button>
+                            <div class="lg:flex justify-between my-[50px] mx-[50px] lg:space-x-4">
+                                <div class="text-gray-500">
+                                    Coba produk Google Cloud dan bangun bukti konsep dengan kredit gratis senilai $300.
+                                </div>
+                                <button class="bg-[#0B57D0] text-white rounded-3xl lg:p-3 text-xs p-3 mt-6">Mulai secara gratis</button>
+                            </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>    <div class="xl:container mx-auto md:h-[300px] h-auto bg-gray-100 mt-[-10px]">
-    <div 
-        x-data="{ activeTab: ('ai') }" 
-        class="md:w-full max-w-4xl mx-[50px] pb-[10px] pt-[20px]"
-    >
-        <!-- Tab Menu -->
-        <div class="flex space-x-8 pb-3 pt-6">
-            <button
-                @click="activeTab = 'ai'"
-                class="md:text-lg transition-colors duration-300"
-                :class="{ 'text-blue-600': activeTab === 'ai' }"
-            >
+    <div class="xl:container mx-auto md:h-[300px] h-auto bg-gray-100 mt-[-10px]">
+        <div x-data="{ activeTab: ('ai') }" class="md:w-full max-w-4xl mx-[50px] pb-[10px] pt-[20px]">
+            <!-- Tab Menu -->
+            <div class="flex space-x-8 pb-3 pt-6">
+                <button @click="activeTab = 'ai'" class="md:text-lg transition-colors duration-300" :class="{ 'text-blue-600': activeTab === 'ai' }">
                 Yang baru di AI
             </button>
 
-            <button
-                @click="activeTab = 'dev'"
-                class="md:text-lg transition-colors duration-300"
-                :class="{ 'text-blue-600': activeTab === 'dev' }"
-            >
+                <button @click="activeTab = 'dev'" class="md:text-lg transition-colors duration-300" :class="{ 'text-blue-600': activeTab === 'dev' }">
                 Developer
             </button>
 
-            <button
-                @click="activeTab = 'biz'"
-                class="md:text-lg transition-colors duration-300"
-                :class="{ 'text-blue-600': activeTab === 'biz' }"
-            >
+                <button @click="activeTab = 'biz'" class="md:text-lg transition-colors duration-300" :class="{ 'text-blue-600': activeTab === 'biz' }">
                 Pemimpin bisnis
             </button>
-        </div>
+            </div>
 
-        <div
-            class="lg:bottom-0 lg:h-0.5 bg-blue-600 transition-all duration-300"
-            :style="{
+            <div class="lg:bottom-0 lg:h-0.5 bg-blue-600 transition-all duration-300" :style="{
                 width: activeTab === 'ai' ? '120px' : activeTab === 'dev' ? '85px' : '135px',
                 transform: activeTab === 'ai' ? 'translateX(0px)' : activeTab === 'dev' ? 'translateX(160px)' : 'translateX(280px)'
-            }"
-        ></div>
+            }"></div>
 
-        <!-- Konten -->
-        <div class="mt-[60px]">
-            <!-- Tab AI -->
-            <template x-if="activeTab === 'ai'">
+            <!-- Konten -->
+            <div class="mt-[60px]">
+                <!-- Tab AI -->
+                <template x-if="activeTab === 'ai'">
                 <div class="md:grid auto-cols-max md:grid-flow-col md:gap-2 mb-[20px]">
                 <!-- Card 1 -->
                     <div class="flex-shrink-0 mb-2 col-span-2 md:w-[380px] md:h-[130px] bg-white shadow border flex">
@@ -344,8 +322,8 @@
                 </div>
             </template>
 
-            <!-- Tab Developer -->
-            <template x-if="activeTab === 'dev'">
+                <!-- Tab Developer -->
+                <template x-if="activeTab === 'dev'">
                 <div class="md:grid auto-cols-max md:grid-flow-col gap-2 mb-[20px]">
                 <!-- Card 1 -->
                     <div class="flex-shrink-0 mb-2 col-span-2 md:w-[380px] md:h-[130px] border bg-white shadow flex">
@@ -399,8 +377,8 @@
                 </div>
             </template>
 
-            <!-- Tab Bisnis -->
-            <template x-if="activeTab === 'biz'">
+                <!-- Tab Bisnis -->
+                <template x-if="activeTab === 'biz'">
                 <div class="md:grid auto-cols-max md:grid-flow-col gap-2 mb-[20px]">
                 <!-- Card 1 -->
                     <div class="flex-shrink-0 mb-2 col-span-2 md:w-[380px] md:h-[130px] border bg-white shadow flex">
@@ -453,72 +431,31 @@
                     </div>
                 </div>
             </template>
+            </div>
         </div>
-    </div> 
-</div>    <div class="md:flex justify-between container mx-auto">
-    <div class="md:grid grid-cols-2 mx-[50px] my-[50px]">
-        <div class=",d:sticky md:top-0 md:z-0 tracking-wide">
-            <div class="md:text-4xl text-2xl font-bold my-[30px]">
-                Bangun dengan platform cloud
-                <span class="text-blue-500">yang dirancang<br> untuk developer dan AI</span>
-            </div>
-            <div class="antialiased text-gray-600 text-justify">
-                Coba Google Cloud dengan menggunakan lebih dari 20 produk secara gratis. Selain itu, pelanggan baru akan mendapatkan kredit gratis senilai $300 saat mendafta
-            </div>
-            <div class="md:flex gap-3 justify-between my-[30px]">
-                <button class="rounded-full md:w-[200px] w-[300px] outline-blue-500 bg-[#0B57D0] h-[45px] py-1 hover:bg-blue-600">
+    </div>
+    <div class="md:flex justify-between container mx-auto">
+        <div class="md:grid grid-cols-2 mx-[50px] my-[50px]">
+            <div class=",d:sticky md:top-0 md:z-0 tracking-wide">
+                <div class="md:text-4xl text-2xl font-bold my-[30px]">
+                    Bangun dengan platform cloud
+                    <span class="text-blue-500">yang dirancang<br> untuk developer dan AI</span>
+                </div>
+                <div class="antialiased text-gray-600 text-justify">
+                    Coba Google Cloud dengan menggunakan lebih dari 20 produk secara gratis. Selain itu, pelanggan baru akan mendapatkan kredit gratis senilai $300 saat mendafta
+                </div>
+                <div class="md:flex gap-3 justify-between my-[30px]">
+                    <button class="rounded-full md:w-[200px] w-[300px] outline-blue-500 bg-[#0B57D0] h-[45px] py-1 hover:bg-blue-600">
                     <a href="" class="px-5 text-sm text-white ">Mulai Gratis</a>
                 </button>
-                <button class="rounded-full w-[300px] bg-transparent h-[45px] py-1 hover:bg-blue-100">
+                    <button class="rounded-full w-[300px] bg-transparent h-[45px] py-1 hover:bg-blue-100">
                     <a href="" class="px-5 text-sm font-semibold text-[#0B57D0]">Lihat semua produk (150+)</a>
                 </button>
-            </div>
-        </div>
-        <div class="md:mx-[50px] md:my-[20px] space-y-4">
-            <div x-data="{ expanded: false }" class="border-b-2 rounded-lg">
-                 <button
-                    @click="expanded= !expanded" class="w-full flex justify-between items-center p-4 font-semibold text-lg" 
-                 >
-                 <span>AI dan machine learning</span>
-                 <span :class="{'rotate-180': expanded}" class="transform transition-transform duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                    </svg>
-                 </span>
-                </button>
-                <div x-show="expanded">
-                    <ul class="space-y-3">
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
-                                Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
-                            </span>
-                        </li>
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
-                                Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
-                            </span>
-                        </li>
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
-                                Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
-                            </span>
-                        </li>
-                    </ul>
                 </div>
             </div>
-            <div x-data="{ expanded: false }" class="border-b-2 rounded-lg">
-                 <button
-                    @click="expanded= !expanded" class="w-full flex justify-between items-center p-4 font-semibold text-lg" 
-                 >
+            <div class="md:mx-[50px] md:my-[20px] space-y-4">
+                <div x-data="{ expanded: false }" class="border-b-2 rounded-lg">
+                    <button @click="expanded= !expanded" class="w-full flex justify-between items-center p-4 font-semibold text-lg">
                  <span>AI dan machine learning</span>
                  <span :class="{'rotate-180': expanded}" class="transform transition-transform duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -526,39 +463,37 @@
                     </svg>
                  </span>
                 </button>
-                <div x-show="expanded">
-                    <ul class="space-y-3">
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <div x-show="expanded">
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div x-data="{ expanded: false }" class="border-b-2 rounded-lg">
-                 <button
-                    @click="expanded= !expanded" class="w-full flex justify-between items-center p-4 font-semibold text-lg" 
-                 >
+                <div x-data="{ expanded: false }" class="border-b-2 rounded-lg">
+                    <button @click="expanded= !expanded" class="w-full flex justify-between items-center p-4 font-semibold text-lg">
                  <span>AI dan machine learning</span>
                  <span :class="{'rotate-180': expanded}" class="transform transition-transform duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -566,39 +501,37 @@
                     </svg>
                  </span>
                 </button>
-                <div x-show="expanded">
-                    <ul class="space-y-3">
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <div x-show="expanded">
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div x-data="{ expanded: false }" class="border-b-2 rounded-lg">
-                 <button
-                    @click="expanded= !expanded" class="w-full flex justify-between items-center p-4 font-semibold text-lg" 
-                 >
+                <div x-data="{ expanded: false }" class="border-b-2 rounded-lg">
+                    <button @click="expanded= !expanded" class="w-full flex justify-between items-center p-4 font-semibold text-lg">
                  <span>AI dan machine learning</span>
                  <span :class="{'rotate-180': expanded}" class="transform transition-transform duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -606,39 +539,37 @@
                     </svg>
                  </span>
                 </button>
-                <div x-show="expanded">
-                    <ul class="space-y-3">
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <div x-show="expanded">
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div x-data="{ expanded: false }" class="border-b-2 rounded-lg">
-                 <button
-                    @click="expanded= !expanded" class="w-full flex justify-between items-center p-4 font-semibold text-lg" 
-                 >
+                <div x-data="{ expanded: false }" class="border-b-2 rounded-lg">
+                    <button @click="expanded= !expanded" class="w-full flex justify-between items-center p-4 font-semibold text-lg">
                  <span>AI dan machine learning</span>
                  <span :class="{'rotate-180': expanded}" class="transform transition-transform duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -646,39 +577,37 @@
                     </svg>
                  </span>
                 </button>
-                <div x-show="expanded">
-                    <ul class="space-y-3">
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <div x-show="expanded">
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div x-data="{ expanded: false }" class="border-b-2 rounded-lg">
-                 <button
-                    @click="expanded= !expanded" class="w-full flex justify-between items-center p-4 font-semibold text-lg" 
-                 >
+                <div x-data="{ expanded: false }" class="border-b-2 rounded-lg">
+                    <button @click="expanded= !expanded" class="w-full flex justify-between items-center p-4 font-semibold text-lg">
                  <span>AI dan machine learning</span>
                  <span :class="{'rotate-180': expanded}" class="transform transition-transform duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -686,39 +615,37 @@
                     </svg>
                  </span>
                 </button>
-                <div x-show="expanded">
-                    <ul class="space-y-3">
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <div x-show="expanded">
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div x-data="{ expanded: false }" class="border-b-2 rounded-lg">
-                 <button
-                    @click="expanded= !expanded" class="w-full flex justify-between items-center p-4 font-semibold text-lg" 
-                 >
+                <div x-data="{ expanded: false }" class="border-b-2 rounded-lg">
+                    <button @click="expanded= !expanded" class="w-full flex justify-between items-center p-4 font-semibold text-lg">
                  <span>AI dan machine learning</span>
                  <span :class="{'rotate-180': expanded}" class="transform transition-transform duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -726,39 +653,37 @@
                     </svg>
                  </span>
                 </button>
-                <div x-show="expanded">
-                    <ul class="space-y-3">
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <div x-show="expanded">
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div x-data="{ expanded: false }" class="border-b-2 rounded-lg">
-                 <button
-                    @click="expanded= !expanded" class="w-full flex justify-between items-center p-4 font-semibold text-lg" 
-                 >
+                <div x-data="{ expanded: false }" class="border-b-2 rounded-lg">
+                    <button @click="expanded= !expanded" class="w-full flex justify-between items-center p-4 font-semibold text-lg">
                  <span>AI dan machine learning</span>
                  <span :class="{'rotate-180': expanded}" class="transform transition-transform duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -766,55 +691,93 @@
                     </svg>
                  </span>
                 </button>
-                <div x-show="expanded">
-                    <ul class="space-y-3">
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <div x-show="expanded">
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                        <li class="flex items-start space-x-2">
-                            <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg> 
-                            <span class="text-gray-500 text-sm">
+                            </svg>
+                                <span class="text-gray-500 text-sm">
                                 Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
                             </span>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div x-data="{ expanded: false }" class="border-b-2 rounded-lg">
+                    <button @click="expanded= !expanded" class="w-full flex justify-between items-center p-4 font-semibold text-lg">
+                 <span>AI dan machine learning</span>
+                 <span :class="{'rotate-180': expanded}" class="transform transition-transform duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                 </span>
+                </button>
+                    <div x-show="expanded">
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                            </svg>
+                                <span class="text-gray-500 text-sm">
+                                Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
+                            </span>
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                            </svg>
+                                <span class="text-gray-500 text-sm">
+                                Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
+                            </span>
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <svg class="text-green-500 w-[50px] h-[20px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                            </svg>
+                                <span class="text-gray-500 text-sm">
+                                Bangun agen AI dan deploy aplikasi yang ditingkatkan AI generatif dengan platform AI kami yang terkelola sepenuhnya, Vertex AI—yang ditingkatkan oleh Gemini dan lebih dari 130 model dasar
+                            </span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>    <div class="bg-black px-[50px] py-[50px]">
-    <div class="md:grid grid-cols-2">
-        <div class="flex justify-between text-white text-4xl font-bold text-left tracking-wide">
-            <p>Membangun dan menskalakan aplikasi AI generatif dengan 
-                <span class="text-yellow-400"><br>Vertex AI dan Gemini Code Assist</span>
-            </p>
-        </div>
-        <div class="text-white text-lg text-left tracking-wide items-center">
-            <p>
-                Gunakan <a href="#" class="text-blue-500 underline">Vertex AI</a> untuk men-deploy dan mengelola aplikasi AI serta <a href="#" class="text-blue-500 underline">Gemini Code Assist untuk</a> bantuan tugas dan kode.
-            </p>
-            <button class="mt-[30px] bg-white text-blue-600 text-sm rounded-3xl p-[15px] w-[150px] text-bold w-[300px] ">
+    <div class="bg-black px-[50px] py-[50px]">
+        <div class="md:grid grid-cols-2">
+            <div class="flex justify-between text-white text-4xl font-bold text-left tracking-wide">
+                <p>Membangun dan menskalakan aplikasi AI generatif dengan
+                    <span class="text-yellow-400"><br>Vertex AI dan Gemini Code Assist</span>
+                </p>
+            </div>
+            <div class="text-white text-lg text-left tracking-wide items-center">
+                <p>
+                    Gunakan <a href="#" class="text-blue-500 underline">Vertex AI</a> untuk men-deploy dan mengelola aplikasi AI serta <a href="#" class="text-blue-500 underline">Gemini Code Assist untuk</a> bantuan tugas dan kode.
+                </p>
+                <button class="mt-[30px] bg-white text-blue-600 text-sm rounded-3xl p-[15px] w-[150px] text-bold w-[300px] ">
                 Mulai secara gratis
             </button>
+            </div>
         </div>
-    </div>
-    <div 
-        x-data="{ 
+        <div x-data="{ 
             selected: 'btn1', 
             showModal: false,
             videos: {
@@ -823,17 +786,11 @@
                 btn3: 'https://www.youtube.com/embed/h41eoDraUzE?si=pTEXQC4veGIPi0pk',
                 btn4: 'https://www.youtube.com/embed/WsXVGr0Q3C4?si=pGMH1kMqRcXcXBKr'
             } 
-        }"
-        class="text-white md:w-full my-[50px]"
-    >
-        <div class="md:flex items-center md:grid md:grid-cols-2 grid-cols-1">
-            <div class="max-w-2xl w-full space-y-6">
-                <div class="space-y-4">
-                    <button 
-                        @click="selected = 'btn1'"
-                        :class="{ 'text-blue-400 bg-gray-900': selected === 'btn1' }"
-                        class="w-full flex justify-between text-left hover:rounded-lg hover:bg-gray-900 hover:text-blue-400 p-3 transition"
-                    >
+        }" class="text-white md:w-full my-[50px]">
+            <div class="md:flex items-center md:grid md:grid-cols-2 grid-cols-1">
+                <div class="max-w-2xl w-full space-y-6">
+                    <div class="space-y-4">
+                        <button @click="selected = 'btn1'" :class="{ 'text-blue-400 bg-gray-900': selected === 'btn1' }" class="w-full flex justify-between text-left hover:rounded-lg hover:bg-gray-900 hover:text-blue-400 p-3 transition">
                         <span>
                             <P class="text-xs font-semibold uppercase hidden md:block">PANDUAN DEVELOPER AI</P>
                             <P class="text-lg">Pengantar Gemini di Vertex AI</P>
@@ -844,16 +801,12 @@
                             </svg>
                         </span>
                     </button>
-                    <template x-if="selected === 'btn1'">
+                        <template x-if="selected === 'btn1'">
                         <a href="#" @click.prevent="showModal = true" :class="{'md:hidden': selected}">
                             <img src="http://127.0.0.1:8000/img/img1.png" alt="AI Image" class="rounded-lg shadow-lg w-96">
                         </a>
                     </template>
-                    <button 
-                        @click="selected = 'btn2'"
-                        :class="{ 'text-blue-400 bg-gray-900': selected === 'btn2' }"
-                        class="w-full flex justify-between text-left hover:rounded-lg hover:bg-gray-900 hover:text-blue-400 p-3 transition"
-                    >
+                        <button @click="selected = 'btn2'" :class="{ 'text-blue-400 bg-gray-900': selected === 'btn2' }" class="w-full flex justify-between text-left hover:rounded-lg hover:bg-gray-900 hover:text-blue-400 p-3 transition">
                         <span>
                             <P class="text-xs font-semibold uppercase hidden md:block">PANDUAN DEVELOPER AI</P>
                             <P class="text-lg">Pengantar Gemini di Vertex AI</P>
@@ -864,16 +817,12 @@
                             </svg>
                         </span>
                     </button>
-                    <template x-if="selected === 'btn2'">
+                        <template x-if="selected === 'btn2'">
                         <a href="#" @click.prevent="showModal = true" :class="{'md:hidden': selected}">
                             <img src="http://127.0.0.1:8000/img/btn2.png" alt="AI Image" class="rounded-lg shadow-lg w-96">
                         </a>
                     </template>
-                    <button 
-                        @click="selected = 'btn3'"
-                        :class="{ 'text-blue-400 bg-gray-900': selected === 'btn3' }"
-                        class="w-full flex justify-between text-left hover:rounded-lg hover:bg-gray-900 hover:text-blue-400 p-3 transition"
-                    >
+                        <button @click="selected = 'btn3'" :class="{ 'text-blue-400 bg-gray-900': selected === 'btn3' }" class="w-full flex justify-between text-left hover:rounded-lg hover:bg-gray-900 hover:text-blue-400 p-3 transition">
                         <span>
                             <P class="text-xs font-semibold uppercase hidden md:block">PANDUAN DEVELOPER AI</P>
                             <P class="text-lg">Pengantar Gemini di Vertex AI</P>
@@ -884,16 +833,12 @@
                             </svg>
                         </span>
                     </button>
-                    <template x-if="selected === 'btn3'">
+                        <template x-if="selected === 'btn3'">
                         <a href="#" @click.prevent="showModal = true" :class="{'md:hidden': selected}">
                             <img src="http://127.0.0.1:8000/img/btn3.png" alt="AI Image" class="rounded-lg shadow-lg w-96">
                         </a>
                     </template>
-                    <button 
-                        @click="selected = 'btn4'"
-                        :class="{ 'text-blue-400 bg-gray-900': selected === 'btn4'}"
-                        class="w-full flex justify-between text-left hover:rounded-lg hover:bg-gray-900 hover:text-blue-400 p-3 transition"
-                    >
+                        <button @click="selected = 'btn4'" :class="{ 'text-blue-400 bg-gray-900': selected === 'btn4'}" class="w-full flex justify-between text-left hover:rounded-lg hover:bg-gray-900 hover:text-blue-400 p-3 transition">
                         <span>
                             <P class="text-xs font-semibold uppercase hidden md:block">PANDUAN DEVELOPER AI</P>
                             <P class="text-lg">Pengantar Gemini di Vertex AI</P>
@@ -904,67 +849,61 @@
                             </svg>
                         </span>
                     </button>
-                    <template x-if="selected === 'btn4'">
+                        <template x-if="selected === 'btn4'">
                         <a href="#" @click.prevent="showModal = true" :class="{'md:hidden': selected}">
                             <img src="http://127.0.0.1:8000/img/btn4.png" alt="AI Image" class="rounded-lg shadow-lg w-96">
                         </a>
                     </template>
+                    </div>
                 </div>
-            </div>
-            <div class="md:flex md:justify-center pl-[20px]">
-                <div class="md:mt-8">
-                    <template x-if="selected === 'btn1'">
+                <div class="md:flex md:justify-center pl-[20px]">
+                    <div class="md:mt-8">
+                        <template x-if="selected === 'btn1'">
                         <a href="#" @click.prevent="showModal = true" :class="{'hidden': selected, 'md:block': selected, 'md:block': selected}">
                             <img src="http://127.0.0.1:8000/img/img1.png" alt="AI Image" class="rounded-lg shadow-lg w-96">
                         </a>
                     </template>
 
-                    <template x-if="selected === 'btn2'">
+                        <template x-if="selected === 'btn2'">
                         <a href="#" @click.prevent="showModal = true" :class="{'hidden': selected, 'md:block': selected}">
                             <img src="http://127.0.0.1:8000/img/btn2.png" alt="Tugas Image" class="rounded-lg shadow-lg w-96">
                         </a>
                     </template>
 
-                    <template x-if="selected === 'btn3'">
+                        <template x-if="selected === 'btn3'">
                         <a href="#" @click.prevent="showModal = true" :class="{'hidden': selected, 'md:block': selected}">
                             <img src="http://127.0.0.1:8000/img/btn3.png" alt="Kode Image" class="rounded-lg shadow-lg w-96">
                         </a>
                     </template>
 
-                    <template x-if="selected === 'btn4'">
+                        <template x-if="selected === 'btn4'">
                         <a href="#" @click.prevent="showModal = true" :class="{'hidden': selected, 'md:block': selected}">
                             <img src="http://127.0.0.1:8000/img/btn4.png" alt="Kode Image" class="rounded-lg shadow-lg w-96">
                         </a>
                     </template>
+                    </div>
+                </div>
+            </div>
+            <div x-show="showModal" x-transition style="display: none" class="fixed inset-0 z-50 bg-black bg-opacity-75 flex items-center justify-center" @keydown.escape.window="showModal = false" @click.self="showModal = false">
+                <div class="bg-white lg:w-[900px] w-[450px] rounded-xl">
+                    <div class="aspect-w-16 aspect-h-9 my-[30px] mx-[50px] border-2">
+                        <iframe class="lg:w-[800px] lg:h-[400px] w-[350px] h-[200px]" :src="videos[selected]" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen>
+                    </iframe>
+                    </div>
+                    <div class="lg:flex justify-between my-[50px] mx-[50px] lg:space-x-4">
+                        <div class="text-gray-500">
+                            Coba produk Google Cloud dan bangun bukti konsep dengan kredit gratis senilai $300.
+                        </div>
+                        <button class="bg-[#0B57D0] text-white rounded-3xl lg:p-3 text-xs p-3 mt-6">Mulai secara gratis</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div 
-            x-show="showModal" 
-            x-transition 
-            style="display: none"
-            class="fixed inset-0 z-50 bg-black bg-opacity-75 flex items-center justify-center"
-            @keydown.escape.window="showModal = false"
-            @click.self="showModal = false"
-        >
-            <div class="bg-white lg:w-[900px] w-[450px] rounded-xl">
-                <div class="aspect-w-16 aspect-h-9 my-[30px] mx-[50px] border-2">
-                    <iframe class="lg:w-[800px] lg:h-[400px] w-[350px] h-[200px]" :src="videos[selected]" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-                    </iframe>
-                </div>
-                <div class="lg:flex justify-between my-[50px] mx-[50px] lg:space-x-4">
-                    <div class="text-gray-500">
-                        Coba produk Google Cloud dan bangun bukti konsep dengan kredit gratis
-                        senilai $300.
-                    </div>
-                    <button class="bg-[#0B57D0] text-white rounded-3xl lg:p-3 text-xs p-3 mt-6">Mulai secara gratis</button>
-                </div>
-            </div>
-        </div>        
     </div>
-</div>
-    
-    
-    
-        </body>
+
+
+
+</body>
+
 </html>
