@@ -1,0 +1,5 @@
+[build]
+builder = "Dockerfile"
+
+[deploy]
+startCommand = "apache2-foreground"
