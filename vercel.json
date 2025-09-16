@@ -1,7 +1,12 @@
 {
-    "builds": [
-        { "src": "public/index.php", "use": "@vercel/php" }
-    ],
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "functions": {
+        "api/index.php": {
+            "runtime": "vercel-php@0.7.4"
+        }
+    },
     "routes": [
         { "src": "/(.*)", "dest": "/api/index.php" }
     ]
